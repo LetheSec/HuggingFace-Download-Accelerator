@@ -6,12 +6,12 @@
 
 
 import argparse
+import importlib
 import os
 import sys
 
-try:
-    import huggingface_hub
-except ImportError:
+if importlib.util.find_spec("huggingface_hub") is None:
+    print("Install huggingface_hub.")
     os.system("pip install -U huggingface_hub")
 
 
@@ -54,11 +54,10 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.use_hf_transfer:
-    try:
-        import hf_transfer
-    except ImportError:
-        print("Install hf_transfer, e.g., pip install -U hf-transfer")
+    if importlib.util.find_spec("hf_transfer") is None:
+        print("Install hf_transfer.")
         os.system("pip install -U hf-transfer")
+
     os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
     print("HF_HUB_ENABLE_HF_TRANSFER: ", os.getenv("HF_HUB_ENABLE_HF_TRANSFER"))
 
