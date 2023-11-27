@@ -1,6 +1,6 @@
 # 国内用户 HuggingFace 高速下载
 
-利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从[镜像网站](https://hf-mirror.com/)上对HuggingFace上的模型和数据集进行高速下载。
+利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从[HuggingFace 镜像站](https://hf-mirror.com/)上对模型和数据集进行高速下载。
 
 ## Usage
 
@@ -8,7 +8,7 @@
 
 **（1）下载模型**
 
-以 `lmsys/vicuna-7b-v1.5` 模型为例：
+从HuggingFace上获取到所需模型名，例如 `lmsys/vicuna-7b-v1.5`：
 
 ```bash
 python hf_download.py --model lmsys/vicuna-7b-v1.5 --save_dir ./hf_hub
@@ -44,6 +44,6 @@ pip install -U hf-transfer
 
  ## Reference
 
-https://hf-mirror.com/
+HuggingFace 镜像站：https://hf-mirror.com/
 
 https://zhuanlan.zhihu.com/p/663712983
