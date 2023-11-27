@@ -3,6 +3,11 @@
 利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从[镜像网站](https://hf-mirror.com/)上对HuggingFace上的模型和数据集进行高速下载。
 
 ## Usage
+推荐先手动安装huggingface-cli和hf_transfer：
+```bash
+pip install -U huggingface_hub
+pip install -U hf-transfer
+```
 
 用法如下:
 
