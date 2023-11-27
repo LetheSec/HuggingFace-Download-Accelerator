@@ -33,11 +33,14 @@ python hf_download.py --dataset zh-plus/tiny-imagenet --save_dir ./hf_hub
  - `--dataset`: huggingface上要下载的数据集名称，例如 `--dataset zh-plus/tiny-imagenet`
  - `--save_dir`: 文件下载后实际的存储路径
  - `--token`: 下载需要登录的模型（Gated Model），例如`meta-llama/Llama-2-7b-hf`时，需要指定hugginface的token，格式为`hf_****`
- - `--use_hf_transfer`: 使用 hf-transfer 进行加速下载，默认开启(True), 开启将不显示进度条。如果下载报错, 可以尝试设置为False。
+ - `--use_hf_transfer`: 使用 hf-transfer 进行加速下载，默认开启(True), 开启将不显示进度条。
  - `--use_mirror`: 从镜像站 https://hf-mirror.com/ 下载, 默认开启(True), 国内用户建议开启
 
-如果出错，可以尝试手动安装huggingface-cli和hf_transfer：
+--- 
+**可能的问题：**
+- 如果第一次运行出错，可以尝试手动安装huggingface-cli和hf_transfer：
 ```bash
 pip install -U huggingface_hub
 pip install -U hf-transfer
 ```
+- 如果某次下载中断，再次运行脚本时，出现卡住或报错的现象，可以尝试删除`save_dir`和`HF_HOME`中的之前下载的模型文件，然后重新运行脚本进行下载。
