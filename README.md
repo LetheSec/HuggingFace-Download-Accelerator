@@ -3,11 +3,6 @@
 利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从[镜像网站](https://hf-mirror.com/)上对HuggingFace上的模型和数据集进行高速下载。
 
 ## Usage
-推荐先手动安装huggingface-cli和hf_transfer：
-```bash
-pip install -U huggingface_hub
-pip install -U hf-transfer
-```
 
 用法如下:
 
@@ -40,6 +35,11 @@ python hf_download.py --dataset zh-plus/tiny-imagenet --save_dir ./hf_hub
  - `--use_hf_transfer`: 使用 hf-transfer 进行加速下载，默认开启(True), 开启将不显示进度条。如果下载报错, 可以尝试设置为False。
  - `--use_mirror`: 从镜像站 https://hf-mirror.com/ 下载, 默认开启(True), 国内用户建议开启
 
+如果出错，可以尝试手动安装huggingface-cli和hf_transfer：
+```bash
+pip install -U huggingface_hub
+pip install -U hf-transfer
+```
 
  ## Reference
 
