@@ -13,7 +13,8 @@
 ```bash
 python hf_download.py --model lmsys/vicuna-7b-v1.5 --save_dir ./hf_hub
 ```
-- 默认使用 hf-transfer 进行加速(会导致不显示进度条)，如需进度条请添加`--use_hf_transfer False`，但可能会降低下载速度。
+- 脚本内置通过 pip 自动安装 huggingface-cli 和 hf_transfer，若用户之前更换过pip源，那么可能安装的不是最新版本。
+- 默认开启 hf-transfer 进行加速(版本低于0.1.4则会不显示进度条, 可手动更新版本)。此时如需进度条请添加`--use_hf_transfer False`，但可能会降低下载速度。
 - 下载过程中文件会先暂存在默认路径`~/.cache/huggingface/hub`中，下载完成后自动移动到`--save_dir`指定对目录下。因此需要在下载前保证 `~/.cache/huggingface/hub` 有足够容量，也可以通过设置 `export HF_HOME=/xxx/xxx/` 变量改变默认路径。
 - 使用transformers库加载时需要指定保存后的路径，例如：
 ```python
@@ -38,7 +39,7 @@ python hf_download.py --dataset zh-plus/tiny-imagenet --save_dir ./hf_hub
 
 --- 
 **可能的问题：**
-- 如果第一次运行出错，可以尝试手动安装huggingface-cli和hf_transfer：
+- 如果第一次运行出错，可以尝试手动安装huggingface-cli和hf_transfer（若不是官方pip源，可能不是最新版本）：
 ```bash
 pip install -U huggingface_hub
 pip install -U hf-transfer
