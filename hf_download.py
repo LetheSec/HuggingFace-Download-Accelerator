@@ -6,11 +6,13 @@
 
 
 import argparse
-import importlib.util
 import os
 import sys
 
-if importlib.util.find_spec("huggingface_hub") is None:
+# Check if huggingface_hub is installed, if not, install it
+try:
+    import huggingface_hub
+except ImportError:
     print("Install huggingface_hub.")
     os.system("pip install -U huggingface_hub")
 
@@ -40,26 +42,30 @@ parser.add_argument(
 parser.add_argument(
     "--save_dir",
     "-S",
-    default="./hf_hub",
+    default=None,
     type=str,
     help="path to be saved after downloading.",
 )
 parser.add_argument(
-    "--use_hf_transfer", default=True, type=eval, help="Use hf-transfer, default: True"
+    "--use_hf_transfer", default=True, type=bool, help="Use hf-transfer, default: True"
 )
 parser.add_argument(
-    "--use_mirror", default=True, type=eval, help="Download from mirror, default: True"
+    "--use_mirror", default=True, type=bool, help="Download from mirror, default: True"
 )
 
 args = parser.parse_args()
 
 if args.use_hf_transfer:
-    if importlib.util.find_spec("hf_transfer") is None:
+    # Check if hf_transfer is installed, if not, install it
+    try:
+        import hf_transfer
+    except ImportError:
         print("Install hf_transfer.")
-        os.system("pip install -U hf-transfer")
-
+        os.system("pip install -U hf-transfer -i https://pypi.org/simple")
+    # Enable hf-transfer if specified
     os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
-    print("HF_HUB_ENABLE_HF_TRANSFER: ", os.getenv("HF_HUB_ENABLE_HF_TRANSFER"))
+    print("export HF_HUB_ENABLE_HF_TRANSFER=", os.getenv("HF_HUB_ENABLE_HF_TRANSFER"))
+
 
 if args.model is None and args.dataset is None:
     print(
@@ -71,35 +77,42 @@ elif args.model is not None and args.dataset is not None:
     sys.exit()
 
 if args.use_mirror:
+    # Set default endpoint to mirror site if specified
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
-    print("HF_ENDPOINT: ", os.getenv("HF_ENDPOINT"))  # https://hf-mirror.com
+    print("export HF_ENDPOINT=", os.getenv("HF_ENDPOINT"))  # https://hf-mirror.com
+
+
+if args.token is not None:
+    token_option = "--token %s" % args.token
+else:
+    token_option = ""
 
 if args.model is not None:
     author_name, model_name = args.model.split("/")
-    save_path = os.path.join(
-        args.save_dir, "models--%s--%s" % (author_name, model_name)
+    save_dir_option = ""
+    if args.save_dir is not None:
+        save_path = os.path.join(
+            args.save_dir, "models--%s--%s" % (author_name, model_name)
+        )
+        save_dir_option = "--local-dir %s" % save_path
+
+    download_shell = (
+        "huggingface-cli download %s --local-dir-use-symlinks False --resume-download %s %s"
+        % (token_option, args.model, save_dir_option)
     )
-    #
-    if args.token is not None:
-        download_shell = (
-            "huggingface-cli download --token %s --local-dir-use-symlinks False --resume-download %s --local-dir %s"
-            % (args.token, args.model, save_path)
-        )
-    else:
-        download_shell = (
-            "huggingface-cli download --local-dir-use-symlinks False --resume-download %s --local-dir %s"
-            % (args.model, save_path)
-        )
     os.system(download_shell)
 
 elif args.dataset is not None:
     author_name, dataset_name = args.dataset.split("/")
-    save_path = os.path.join(
-        args.save_dir, "datasets--%s--%s" % (author_name, dataset_name)
-    )
+    save_dir_option = ""
+    if args.save_dir is not None:
+        save_path = os.path.join(
+            args.save_dir, "datasets--%s--%s" % (author_name, dataset_name)
+        )
+        save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
-        "huggingface-cli download --local-dir-use-symlinks False --resume-download  --repo-type dataset %s --local-dir %s"
-        % (args.dataset, save_path)
+        "huggingface-cli download %s --local-dir-use-symlinks False --resume-download  --repo-type dataset %s %s"
+        % (token_option, args.dataset, save_dir_option)
     )
     os.system(download_shell)
