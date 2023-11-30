@@ -47,10 +47,10 @@ parser.add_argument(
     help="path to be saved after downloading.",
 )
 parser.add_argument(
-    "--use_hf_transfer", default=True, type=bool, help="Use hf-transfer, default: True"
+    "--use_hf_transfer", default=True, type=eval, help="Use hf-transfer, default: True"
 )
 parser.add_argument(
-    "--use_mirror", default=True, type=bool, help="Download from mirror, default: True"
+    "--use_mirror", default=True, type=eval, help="Download from mirror, default: True"
 )
 
 args = parser.parse_args()
@@ -88,12 +88,17 @@ else:
     token_option = ""
 
 if args.model is not None:
-    author_name, model_name = args.model.split("/")
+    model_name = args.model.split("/")
     save_dir_option = ""
     if args.save_dir is not None:
-        save_path = os.path.join(
-            args.save_dir, "models--%s--%s" % (author_name, model_name)
-        )
+        if len(model_name) > 1:
+            save_path = os.path.join(
+                args.save_dir, "models--%s--%s" % (model_name[0], model_name[1])
+            )
+        else:
+            save_path = os.path.join(
+                args.save_dir, "models--%s" % (model_name[0])
+            )
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
@@ -103,12 +108,17 @@ if args.model is not None:
     os.system(download_shell)
 
 elif args.dataset is not None:
-    author_name, dataset_name = args.dataset.split("/")
+    dataset_name = args.dataset.split("/")
     save_dir_option = ""
     if args.save_dir is not None:
-        save_path = os.path.join(
-            args.save_dir, "datasets--%s--%s" % (author_name, dataset_name)
-        )
+        if len(dataset_name) > 1:
+            save_path = os.path.join(
+                args.save_dir, "datasets--%s--%s" % (dataset_name[0], dataset_name[1])
+            )
+        else:
+            save_path = os.path.join(
+                args.save_dir, "datasets--%s" % (dataset_name[0])
+            )
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
