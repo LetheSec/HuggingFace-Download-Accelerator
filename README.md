@@ -17,6 +17,10 @@ python hf_download.py --model lmsys/vicuna-7b-v1.5 --save_dir ./hf_hub
 ```
 pip install -U hf-transfer -i https://pypi.org/simple
 ```
+如出现 `huggingface-cli: error` 问题，尝试重新安装：
+```
+pip install -U huggingface_hub
+```
 
 （2）若指定了 `save_dir`，下载过程中会将文件先暂存在 transformers 的默认路径`~/.cache/huggingface/hub`中，下载完成后自动移动到`--save_dir`指定目录下，因此需要在下载前保证默认路径下有足够容量。 
 
