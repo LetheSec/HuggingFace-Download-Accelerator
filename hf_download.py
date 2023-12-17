@@ -33,6 +33,18 @@ parser.add_argument(
     help="hugging face access token for download meta-llama/Llama-2-7b-hf, e.g., hf_***** ",
 )
 parser.add_argument(
+    "--include",
+    default=None,
+    type=str,
+    help="Specify the file to be downloaded",
+)
+parser.add_argument(
+    "--exclude",
+    default=None,
+    type=str,
+    help="Files you don't want to download",
+)
+parser.add_argument(
     "--dataset",
     "-D",
     default=None,
@@ -87,6 +99,17 @@ if args.token is not None:
 else:
     token_option = ""
 
+if args.include is not None:
+    include_option = "--include %s" % args.include
+else:
+    include_option =  ""
+    
+if args.exclude is not None:
+    exclude_option = "--exclude %s" % args.exclude
+else:
+    exclude_option = ""
+    
+    
 if args.model is not None:
     model_name = args.model.split("/")
     save_dir_option = ""
@@ -102,8 +125,8 @@ if args.model is not None:
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
-        "huggingface-cli download %s --local-dir-use-symlinks False --resume-download %s %s"
-        % (token_option, args.model, save_dir_option)
+        "huggingface-cli download %s %s %s --local-dir-use-symlinks False --resume-download %s %s"
+        % (token_option, include_option, exclude_option, args.model, save_dir_option)
     )
     os.system(download_shell)
 
@@ -122,7 +145,7 @@ elif args.dataset is not None:
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
-        "huggingface-cli download %s --local-dir-use-symlinks False --resume-download  --repo-type dataset %s %s"
-        % (token_option, args.dataset, save_dir_option)
+        "huggingface-cli download %s %s %s --local-dir-use-symlinks False --resume-download  --repo-type dataset %s %s"
+        % (token_option, include_option, exclude_option, args.dataset, save_dir_option)
     )
     os.system(download_shell)

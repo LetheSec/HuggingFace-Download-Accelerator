@@ -2,7 +2,17 @@
 
 利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从 [HuggingFace 镜像站](https://hf-mirror.com/)上对模型和数据集进行高速下载。
 
+---
+**12/17/2023 update:** 新增 `--include` 和 `--exlucde`参数，可以指定下载(排除)的文件。
+
+- 下载指定的文件: `--include "tokenizer.model tokenizer_config.json"`
+- 下载某一类文件: `--include "*.bin"`
+- 不下载指定文件: `--exclude "*.md"`
+- 也可以同时使用: `--include "*.json" --exclude "config.json"`
+
+
 ## Usage
+
 
 ### 下载模型
 
@@ -68,5 +78,5 @@ python hf_download.py --dataset zh-plus/tiny-imagenet --save_dir ./hf_hub
  - `--token`: 下载需要登录的模型（Gated Model），例如`meta-llama/Llama-2-7b-hf`时，需要指定hugginface的token，格式为`hf_****`
  - `--use_hf_transfer`: 使用 hf-transfer 进行加速下载，默认开启(True), 若版本低于开启将不显示进度条。
  - `--use_mirror`: 从镜像站 https://hf-mirror.com/ 下载, 默认开启(True), 国内用户建议开启
-
-
+- `--include`: 下载指定的文件，例如 `--include "tokenizer.model tokenizer_config.json"` 或 `--include "*.bin` 下载
+- `--exclude`: 不下载指定的文件，与include用法一致，例如 `--exclude "*.md"`
