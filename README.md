@@ -3,7 +3,7 @@
 利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从 [HuggingFace 镜像站](https://hf-mirror.com/)上对模型和数据集进行高速下载。
 
 ---
-**12/17/2023 update:** 新增 `--include` 和 `--exlucde`参数，可以指定下载(排除)的文件。
+**12/17/2023 update:** 新增 `--include` 和 `--exlucde`参数，可以指定下载或忽略某些文件。
 
 - 下载指定的文件: `--include "tokenizer.model tokenizer_config.json"`
 - 下载某一类文件: `--include "*.bin"`
