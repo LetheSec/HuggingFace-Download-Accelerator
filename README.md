@@ -21,6 +21,8 @@
 ```bash
 python hf_download.py --model lmsys/vicuna-7b-v1.5 --save_dir ./hf_hub
 ```
+如果下载需要授权的模型，例如 meta-llama 系列，则需要指定 `--token` 参数为你的 Huggingface Access Token。
+
 **注意事项：**
 
 （1）脚本内置通过 pip 自动安装 huggingface-cli 和 hf_transfer。如果 hf_transfer 版本低于 0.1.4 则不会显示下载进度条，可以手动更新：
