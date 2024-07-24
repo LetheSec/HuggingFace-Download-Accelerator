@@ -57,7 +57,7 @@ pipe = pipeline("text-generation", model="./hf_hub/models--lmsys--vicuna-7b-v1.5
     ```bash
     ln -s /data/huggingface_cache ~/.cache/huggingface
     ``` 
-- 之后运行下载脚本时无需指定`save_dir`，会自动下载至第一步创建的目录下：
+- 之后运行下载脚本时**不要指定** `save_dir`，会自动下载至第一步创建的目录下：
     ```bash
     python hf_download.py --model lmsys/vicuna-7b-v1.5
     ```
