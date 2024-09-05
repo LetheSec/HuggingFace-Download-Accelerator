@@ -2,6 +2,8 @@
 
 利用 HuggingFace 官方的下载工具 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 和 [hf_transfer](https://github.com/huggingface/hf_transfer) 从 [HuggingFace 镜像站](https://hf-mirror.com/)上对模型和数据集进行高速下载。
 
+> 此脚本只是对 [huggingface-cli](https://huggingface.co/docs/huggingface_hub/guides/download#download-from-the-cli) 的一个简单封装，本意是方便本人自己的习惯使用，如果有对更高级功能的需求，请参考 [官方文档](https://huggingface.co/docs/huggingface_hub/guides/cli) 自行修改。另外，国内用户也可以参考 [HuggingFace 镜像站](https://hf-mirror.com/) 上提供的下载方式。
+
 ---
 **12/17/2023 update:** 新增 `--include` 和 `--exlucde`参数，可以指定下载或忽略某些文件。
 
