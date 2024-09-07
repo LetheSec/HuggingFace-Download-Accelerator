@@ -26,6 +26,13 @@ parser.add_argument(
     help="model name in huggingface, e.g., baichuan-inc/Baichuan2-7B-Chat",
 )
 parser.add_argument(
+    "--revision",
+    "-R",
+    default=None,
+    type=str,
+    help="An optional Git revision id which can be a branch name, a tag, or a commit hash.",
+)
+parser.add_argument(
     "--token",
     "-T",
     default=None,
@@ -93,6 +100,10 @@ if args.use_mirror:
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
     print("export HF_ENDPOINT=", os.getenv("HF_ENDPOINT"))  # https://hf-mirror.com
 
+if args.revision is not None:
+    revision_option = "--revision %s" % args.revision
+else:
+    revision_option = ""
 
 if args.token is not None:
     token_option = "--token %s" % args.token
@@ -125,8 +136,8 @@ if args.model is not None:
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
-        "huggingface-cli download %s %s %s --local-dir-use-symlinks False --resume-download %s %s"
-        % (token_option, include_option, exclude_option, args.model, save_dir_option)
+        "huggingface-cli download %s %s %s %s --local-dir-use-symlinks False --resume-download %s %s"
+        % (token_option, include_option, exclude_option, revision_option, args.model, save_dir_option)
     )
     os.system(download_shell)
 
@@ -145,7 +156,7 @@ elif args.dataset is not None:
         save_dir_option = "--local-dir %s" % save_path
 
     download_shell = (
-        "huggingface-cli download %s %s %s --local-dir-use-symlinks False --resume-download  --repo-type dataset %s %s"
-        % (token_option, include_option, exclude_option, args.dataset, save_dir_option)
+        "huggingface-cli download %s %s %s %s --local-dir-use-symlinks False --resume-download  --repo-type dataset %s %s"
+        % (token_option, include_option, exclude_option, revision_option, args.dataset, save_dir_option)
     )
     os.system(download_shell)
