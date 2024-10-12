@@ -27,26 +27,16 @@ python hf_download.py --model lmsys/vicuna-7b-v1.5 --save_dir ./hf_hub
 
 **注意事项：**
 
-（1）脚本内置通过 pip 自动安装 huggingface-cli 和 hf_transfer。如果 hf_transfer 版本低于 0.1.4 则不会显示下载进度条，可以手动更新：
-```
-pip install -U hf-transfer -i https://pypi.org/simple
-```
-如出现 `huggingface-cli: error` 问题，尝试重新安装：
-```
-pip install -U huggingface_hub
-```
-如出现关于 `hf_transfer`的报错，可以通过`--use_hf_transfer False`参数关闭hf_transfer。
-
-（2）若指定了 `save_dir`，下载过程中会将文件先暂存在 transformers 的默认路径`~/.cache/huggingface/hub`中，下载完成后自动移动到`--save_dir`指定目录下，因此需要在下载前保证默认路径下有足够容量。 
+（1）若指定了 `--save_dir`，下载过程中会将文件先暂存在 transformers 的默认路径`~/.cache/huggingface/hub`中，下载完成后自动移动到`--save_dir`指定目录下，因此需要在下载前保证默认路径下有足够容量。 
 
 下载完成后使用 transformers 库加载时需要指定保存后的路径，例如：
 ```python
 from transformers import pipeline
 pipe = pipeline("text-generation", model="./hf_hub/models--lmsys--vicuna-7b-v1.5")
 ```
-若不指定 `save_dir` 则会下载到默认路径`~/.cache/huggingface/hub`中，这时调用模型可以直接使用模型名称 `lmsys/vicuna-7b-v1.5`。
+**若不指定 `--save_dir` 则会下载到默认路径`~/.cache/huggingface/hub`中，这时调用模型可以直接使用模型名称 `lmsys/vicuna-7b-v1.5`。**
 
-（3）若不想在调用时使用绝对路径，又不希望将所有模型保存在默认路径下，可以通过**软链接**的方式进行设置，步骤如下：
+（2）若不想在调用时使用绝对路径，又不希望将所有模型保存在默认路径下，可以通过**软链接**的方式进行设置，步骤如下：
 - 先在任意位置创建目录，作为下载文件的真实存储位置，例如：
     ```bash
     mkdir /data/huggingface_cache
@@ -68,6 +58,17 @@ pipe = pipeline("text-generation", model="./hf_hub/models--lmsys--vicuna-7b-v1.5
     from transformers import pipeline
     pipe = pipeline("text-generation", model="lmsys/vicuna-7b-v1.5")
     ```
+
+（3）脚本内置通过 pip 自动安装 huggingface-cli 和 hf_transfer。如果 hf_transfer 版本低于 0.1.4 则不会显示下载进度条，可以手动更新：
+```
+pip install -U hf-transfer -i https://pypi.org/simple
+```
+如出现 `huggingface-cli: error` 问题，尝试重新安装：
+```
+pip install -U huggingface_hub
+```
+如出现关于 `hf_transfer`的报错，可以通过`--use_hf_transfer False`参数关闭hf_transfer。
+
 
 ### 下载数据集
 
